@@ -13,3 +13,51 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Chef {
+  id Int @id @default(autoincrement())
+  name String
+  role Role @default(SOUS_CHEF)
+  chefFoodItems ChefItems[]
+  @@map("chefs")
+}
+
+model ChefItems{
+  chefId Int
+  foodItemId Int
+  chef Chef @relation(fields: [chefId], references: [id], onDelete: Cascade)
+  foodItem FoodItem @relation(fields: [foodItemId], references: [id], onDelete: Cascade)
+  @@unique([chefId, foodItemId])
+  @@map("chef_items")
+}
+
+model FoodItem {
+  id Int @id @default(autoincrement())
+  name String @unique
+  price Float
+  chefs ChefItems[]
+  combos ComboItems[]
+  @@map("food_items")
+}
+
+model ComboItems{
+  comboId Int
+  foodItemId Int
+  fooditem FoodItem @relation(fields: [foodItemId], references: [id], onDelete: Cascade)
+  combo Combo @relation(fields: [comboId], references: [id], onDelete: Cascade)
+  @@unique([comboId, foodItemId])
+  @@map("combo_items")
+}
+
+model Combo {
+  id Int @id @default(autoincrement())
+  name String @unique
+  price Float
+  foodItems ComboItems[]
+  @@map("combos")
+}
+
+enum Role {
+  HEAD_CHEF
+  SOUS_CHEF
+}
