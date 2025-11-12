@@ -1,6 +1,8 @@
 import prisma, { Role } from '../config/db.js';
 
-export async function getAll() { 
-  return await prisma.chef.findMany();
+export async function getAll(filter) { 
+  return await prisma.chef.findMany({
+    take: filter.limit
+  });
 }
 
