@@ -1,5 +1,6 @@
-import prisma from '../config/db.js' // prisma client
+import prisma, { Role } from '../config/db.js';
 
 export async function getAll() { 
-	return await prisma.chef.findMany();
+  return await prisma.chef.findMany();
 }
+

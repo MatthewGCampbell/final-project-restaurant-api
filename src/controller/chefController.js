@@ -1,3 +1,4 @@
+import { Role } from '../config/db.js';
 import { getAllChefs } from '../services/chefService.js'
 
 export async function getAllChefsHandler(req, res) { 
