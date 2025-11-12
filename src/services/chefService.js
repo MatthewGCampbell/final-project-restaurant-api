@@ -8,7 +8,7 @@ export async function getChefById(id) {
   let result = await getById(id);
   if (result) return result;
   else {
-    const error = new Error(`Cannot find post with id ${id}`);
+    const error = new Error(`Cannot find chef with id ${id}`);
     error.status = 404;
     throw error;
   }
@@ -22,7 +22,7 @@ export async function updateChef(id, data) {
   const updatedChef = await update(id, data);
   if (updatedChef) return updatedChef;
   else {
-    const error = new Error(`Cannot find post with id ${id}`);
+    const error = new Error(`Cannot find chef with id ${id}`);
     error.status = 404;
     throw error;
   }
@@ -32,7 +32,7 @@ export async function deleteChef(id) {
   const result = await remove(id);
   if (result) return;
   else {
-    const error = new Error(`Cannot find post with id ${id}`);
+    const error = new Error(`Cannot find chef with id ${id}`);
     error.status = 404;
     throw error;
   }

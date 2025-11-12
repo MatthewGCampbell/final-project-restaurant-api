@@ -15,7 +15,7 @@ export async function createChefHandler(req, res) {
   const data = {
     name: req.body.name,
     role: req.body.role,
-    chefId: req.user.id,
+    id: req.user.id,
   };
   let newChef = await createChef(data);
   res.status(201).json(newChef);
