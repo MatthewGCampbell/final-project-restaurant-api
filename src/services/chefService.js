@@ -1,4 +1,4 @@
-import { getAll, getById, createChef, update, remove } from '../repositories/chefRepo.js'
+import { getAll, getById, create, update, remove } from '../repositories/chefRepo.js'
 
 export async function getAllChefs() { 
 	return await getAll();
