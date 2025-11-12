@@ -27,7 +27,7 @@ model ChefItems{
   foodItemId Int
   chef Chef @relation(fields: [chefId], references: [id], onDelete: Cascade)
   foodItem FoodItem @relation(fields: [foodItemId], references: [id], onDelete: Cascade)
-  @@unique([chefId, foodItemId])
+  @@id([chefId, foodItemId])
   @@map("chef_items")
 }
 
@@ -45,7 +45,7 @@ model ComboItems{
   foodItemId Int
   fooditem FoodItem @relation(fields: [foodItemId], references: [id], onDelete: Cascade)
   combo Combo @relation(fields: [comboId], references: [id], onDelete: Cascade)
-  @@unique([comboId, foodItemId])
+  @@id([comboId, foodItemId])
   @@map("combo_items")
 }
 
