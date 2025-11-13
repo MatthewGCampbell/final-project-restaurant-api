@@ -6,3 +6,11 @@ export async function getAll(filter) {
   });
 }
 
+export async function createChef(chefData) {
+  return await prisma.chef.create({
+    data: {
+      name: chefData.name,
+      role: chefData.role
+    },
+  });
+}
