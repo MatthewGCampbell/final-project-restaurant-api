@@ -10,7 +10,7 @@ export const validateChefQuery = [
   handleValidationErrors
 ];
 
-export const validateCreateChef = [
+export const validateChefBody = [
   body('name')
   .isString()
   .withMessage('Name must be a string'),
@@ -19,5 +19,12 @@ export const validateCreateChef = [
   body('role')
   .isIn([Role.HEAD_CHEF, Role.SOUS_CHEF])
   .withMessage('Role must be either HEAD_CHEF or SOUS_CHEF'),
+  handleValidationErrors,
+];
+
+export const validateChefId = [
+  param('id')
+  .isInt({min: 1})
+  .withMessage("Id must be an integer with a minimum value of 1"),
   handleValidationErrors,
 ];
