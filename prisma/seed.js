@@ -1,4 +1,4 @@
-import prisma, { Role} from '../src/config/db.js'
+import prisma, { Role } from '../src/config/db.js'
 
 async function main() {
   // clear existing rows
@@ -9,6 +9,8 @@ async function main() {
   const chef1 = await prisma.chef.create({
     data: {
       name: "Gordon Ramsay",
+      email: "gordon@example.com",
+      password: "123456789",
       role: Role.HEAD_CHEF,
     },
   });
@@ -16,6 +18,8 @@ async function main() {
   const chef2 = await prisma.chef.create({
     data: {
       name: "Christina Wilson",
+      email: "christina@example.com",
+      password: "123456789",
       role: Role.SOUS_CHEF,
     },
   });
@@ -23,6 +27,8 @@ async function main() {
   const chef3 = await prisma.chef.create({
     data: {
       name: "John Doe",
+      email: "john@example.com",
+      password: "12345789",
       role: Role.SOUS_CHEF,
     },
   });

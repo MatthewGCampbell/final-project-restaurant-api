@@ -4,6 +4,7 @@ import morgan from 'morgan';
 
 // resource routers
 import chefRouter from './routes/chefRoutes.js'
+import authRoutes from './routes/authRoutes.js'
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,6 +16,7 @@ app.use(express.json());
 
 // routes
 app.use('/api/chef', chefRouter);
+app.use('/api/auth', authRoutes);
 
 // error handling
 // (1) invalid destinatoin route 

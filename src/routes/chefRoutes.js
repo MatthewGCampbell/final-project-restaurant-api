@@ -1,5 +1,5 @@
 import express from 'express'
-import { getAllChefsHandler, addChefHandler, updateChefHandler, deleteChefHandler, getChefByIdHandler } from '../controller/chefController.js'
+import { getAllChefsHandler, addChefHandler, updateChefHandler, deleteChefHandler, getChefByIdHandler } from '../controllers/chefController.js'
 import { validateChefQuery, validateChefBody, validateChefId } from '../middleware/chefValidators.js'
 
 // need to add validators and authenticate/authororization

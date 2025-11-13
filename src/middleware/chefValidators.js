@@ -14,7 +14,6 @@ export const validateChefBody = [
   body('name')
   .isString()
   .withMessage('Name must be a string'),
-  handleValidationErrors,
 
   body('role')
   .isIn([Role.HEAD_CHEF, Role.SOUS_CHEF])
