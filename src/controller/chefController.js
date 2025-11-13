@@ -1,3 +1,4 @@
+import e from 'express';
 import { Role } from '../config/db.js';
 import { getAllChefs, addChef } from '../services/chefService.js'
 
@@ -9,6 +10,11 @@ export async function getAllChefsHandler(req, res) {
   filter.limit = parseInt(limit);
   const chefs = await getAllChefs(filter);
   res.status(200).json(chefs);
+}
+
+export async function getChefByIdHandler(req, res) {
+  const { id } = req.params;
+  res.status(200).json(`Geting chef with id ${id}`);
 }
 
 // TODO: Example Handler Please Change
