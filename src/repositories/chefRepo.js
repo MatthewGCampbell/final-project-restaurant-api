@@ -10,7 +10,9 @@ export async function createChef(chefData) {
   return await prisma.chef.create({
     data: {
       name: chefData.name,
-      role: chefData.role
+      email: chefData.email,
+      password: chefData.password,
+      role: chefData.role,
     },
   });
 }
