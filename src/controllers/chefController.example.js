@@ -22,7 +22,7 @@ export async function addChefHandler(req, res) {
   const { name, role } = req.body;
   console.log(name);
   console.log(role);
-  const newChef = await addChef({name, role});
+  // const newChef = await addChef({name, role});
   res.status(200).json(newChef);
 }
 
