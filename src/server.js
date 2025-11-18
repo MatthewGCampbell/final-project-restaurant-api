@@ -3,8 +3,9 @@ import cors from 'cors';
 import morgan from 'morgan';
 
 // resource routers
-import chefRouter from './routes/chefRoutes.js'
+import chefRouter from './routes/chefRoutes.js';
 import itemRouter from './routes/itemRoutes.js';
+import comboRouter from './routes/comboRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,6 +18,7 @@ app.use(express.json());
 // routes
 app.use('/api/chef', chefRouter);
 app.use('/api/item', itemRouter);
+app.use('/api/combo', comboRouter);
 
 // error handling
 // (1) invalid destination route 
