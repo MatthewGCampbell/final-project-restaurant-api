@@ -1,29 +1,34 @@
 import prisma from '../config/db.js' // prisma client
 
 export async function getAll() { 
-	return await prisma.chef.findMany();
+    return await prisma.combo.findMany();
 }
 
 export async function getById(id){
-  const chef = await prisma.chef.findUnique({
-    where: { id },  
+  const task = await prisma.combo.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      name: true,
+      price: true,
+    },
   });
-  return chef;
+  return task;
 }
 
 export async function create(data) {
-  return prisma.chef.create({
+  return prisma.combo.create({
     data,
   });
 }
 
 export async function update(id, updates) {
   try {
-    const updatedChef = await prisma.chef.update({
+    const updatedCombo = await prisma.combo.update({
       where: { id },
       data: updates,
     });
-    return updatedChef;
+    return updatedCombo;
   } catch (error) {
     if (error.code === 'P2025') return null;
     throw error;
@@ -32,12 +37,13 @@ export async function update(id, updates) {
 
 export async function remove(id) {
   try {
-    const deletedChef = await prisma.chef.delete({
+    const deletedCombo = await prisma.combo.delete({
       where: { id },
     });
-    return deletedChef;
+    return deletedCombo;
   } catch (error) {
     if (error.code === 'P2025') return null;
     throw error;
   }
 }
+
