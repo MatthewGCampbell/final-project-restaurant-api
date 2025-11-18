@@ -14,6 +14,14 @@ export const validateChefBody = [
   body('name')
   .isString()
   .withMessage('Name must be a string'),
+
+  body('email')
+	.isEmail()
+	.withMessage('Email must be included'),
+	
+  body('password')
+	.isLength({ min: 8, max: 24 })
+	.withMessage('Missing password or not long enough'),
   
   body('role')
   .optional()

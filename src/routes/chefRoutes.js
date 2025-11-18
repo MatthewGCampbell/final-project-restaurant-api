@@ -10,7 +10,7 @@ import { getAllChefsHandler, getChefByIdHandler, createChefHandler, updateChefHa
 const router = express.Router();
 router.get('/', validateChefQuery, getAllChefsHandler);
 router.get('/:id', validateChefId,getChefByIdHandler);
-router.post('/', authenticate, authorizeRoles('HEAD_CHEF') , createChefHandler); 
+router.post('/', authenticate, authorizeRoles('HEAD_CHEF'), validateChefBody, createChefHandler); 
 router.put('/:id', validateChefId, updateChefHandler);
 router.delete('/:id', authenticate, authorizeRoles('HEAD_CHEF'), validateChefId, deleteChefHandler);
 
