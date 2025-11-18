@@ -15,7 +15,6 @@ export async function createComboHandler(req, res) {
   const data = {
     name: req.body.name,
     price: req.body.price,
-    id: req.user.id,
   };
   let newCombo = await createCombo(data);
   res.status(201).json(newCombo);
@@ -25,7 +24,7 @@ export async function updateComboHandler(req, res) {
   let id = parseInt(req.params.id);
   const updates = {};
   if (req.body.name) updates.name = req.body.name;
-  if (req.body.price) updates.pricee = req.body.price;
+  if (req.body.price) updates.price = req.body.price;
 
   const updatedCombo = await updateCombo(id, updates);
   res.status(200).json(updatedCombo);
