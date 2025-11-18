@@ -5,13 +5,14 @@ import { authorizeRoles } from '../middleware/authorizeRoles.js'
 import { getAllChefsHandler, getChefByIdHandler, createChefHandler, updateChefHandler, deleteChefHandler } from '../controller/chefController.js'
 
 // need to add validators and authenticate/authororization
-
+// TODO: validateChefBody needs fixing for post /
+// + validate for put (update) not created yet 
 const router = express.Router();
-router.get('/', getAllChefsHandler);
-router.get('/:id', getChefByIdHandler);
-router.post('/', createChefHandler);
-router.put('/:id', updateChefHandler);
-router.delete('/:id', deleteChefHandler);
+router.get('/', validateChefQuery, getAllChefsHandler);
+router.get('/:id', validateChefId,getChefByIdHandler);
+router.post('/', authenticate, authorizeRoles('HEAD_CHEF') , createChefHandler); 
+router.put('/:id', validateChefId, updateChefHandler);
+router.delete('/:id', authenticate, authorizeRoles('HEAD_CHEF'), validateChefId, deleteChefHandler);
 
 export default router; 
 

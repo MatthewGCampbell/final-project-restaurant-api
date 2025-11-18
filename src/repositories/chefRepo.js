@@ -41,3 +41,7 @@ export async function remove(id) {
     throw error;
   }
 }
+
+export async function findUserByEmail(email) {
+  return await prisma.chef.findUnique({ where: { email } });
+}

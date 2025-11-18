@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import chefRouter from './routes/chefRoutes.js';
 import itemRouter from './routes/itemRoutes.js';
 import comboRouter from './routes/comboRoutes.js';
+import authRouter from './routes/authRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use('/api/chef', chefRouter);
 app.use('/api/item', itemRouter);
 app.use('/api/combo', comboRouter);
+app.use('/api/auth', authRouter);
 
 // error handling
 // (1) invalid destination route 
