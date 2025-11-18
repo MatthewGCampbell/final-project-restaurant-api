@@ -2,7 +2,7 @@ import { param, query, body, oneOf } from 'express-validator';
 import { handleValidationErrors } from './handleValidationErrors.js';
 
 export const validateLogin = [
-    body('email')
+  body('email')
   .exists({values: 'false'})
   .withMessage('email is required')
   .bail()
