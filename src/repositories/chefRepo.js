@@ -5,19 +5,14 @@ export async function getAll() {
 }
 
 export async function getById(id){
-  const task = await prisma.task.findUnique({
-    where: { id },
-    select: {
-      id: true,
-      name: true,
-      completed: true,
-    },
+  const chef = await prisma.chef.findUnique({
+    where: { id },  
   });
-  return task;
+  return chef;
 }
 
 export async function create(data) {
-  return prisma.task.create({
+  return prisma.chef.create({
     data,
   });
 }
