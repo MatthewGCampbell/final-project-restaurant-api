@@ -1,4 +1,9 @@
-import prisma, { Role} from '../src/config/db.js'
+import prisma, { Role } from '../src/config/db.js'
+import bcrypt from 'bcrypt';
+import dotenv from "dotenv";
+dotenv.config();
+
+const hashedPassword = await bcrypt.hash("123456789", 10);
 
 async function main() {
   // clear existing rows
@@ -9,6 +14,8 @@ async function main() {
   const chef1 = await prisma.chef.create({
     data: {
       name: "Gordon Ramsay",
+      email: "gordon@example.com",
+      password: hashedPassword,
       role: Role.HEAD_CHEF,
     },
   });
@@ -16,6 +23,8 @@ async function main() {
   const chef2 = await prisma.chef.create({
     data: {
       name: "Christina Wilson",
+      email: "christina@example.com",
+      password: hashedPassword,
       role: Role.SOUS_CHEF,
     },
   });
@@ -23,6 +32,8 @@ async function main() {
   const chef3 = await prisma.chef.create({
     data: {
       name: "John Doe",
+      email: "john@example.com",
+      password: hashedPassword,
       role: Role.SOUS_CHEF,
     },
   });

@@ -12,4 +12,3 @@ router.delete('/:id', deleteChefHandler);
 
 export default router; 
 
-
