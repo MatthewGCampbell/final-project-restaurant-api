@@ -16,3 +16,7 @@ export async function createChef(chefData) {
     },
   });
 }
+
+export async function findUserByEmail(email) {
+  return await prisma.chef.findUnique({ where: { email } });
+}
