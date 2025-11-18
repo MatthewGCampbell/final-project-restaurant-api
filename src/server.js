@@ -4,20 +4,22 @@ import morgan from 'morgan';
 
 // resource routers
 import chefRouter from './routes/chefRoutes.js'
+import itemRouter from './routes/itemRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// universal middleare
+// universal middleware
 app.use(cors());
 app.use(morgan('tiny'));
 app.use(express.json());
 
 // routes
 app.use('/api/chef', chefRouter);
+app.use('/api/item', itemRouter);
 
 // error handling
-// (1) invalid destinatoin route 
+// (1) invalid destination route 
 app.use((req, res, next) => {
   const err = new Error('Not Found');
   err.status = 404;
@@ -35,3 +37,4 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+
