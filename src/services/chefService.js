@@ -1,4 +1,6 @@
+import bcrypt from 'bcrypt';
 import { getAll, getById, create, update, remove } from '../repositories/chefRepo.js'
+import { Prisma } from '../generated/prisma/index.js'
 
 export async function getAllChefs() { 
 	return await getAll();
@@ -15,7 +17,21 @@ export async function getChefById(id) {
 }
 
 export async function createChef(data) {
-  return await create(data);
+	const hashed =  await bcrypt.hash(data.password, 10);
+	data.password = hashed;
+	try {
+        const newChef = await create(data);
+        return newChef
+    } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === "P2002") {
+                const error = new Error('Error while making new user');
+                error.status = 409;
+                throw error
+            }
+            throw error;
+        }
+    }
 }
 
 export async function updateChef(id, data) {

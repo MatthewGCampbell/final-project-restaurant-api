@@ -12,9 +12,10 @@ export async function getById(id){
 }
 
 export async function create(data) {
-  return prisma.chef.create({
+  const res = await prisma.chef.create({
     data,
   });
+	return res;
 }
 
 export async function update(id, updates) {
