@@ -24,40 +24,60 @@ model Chef {
   @@map("chefs")
 }
 
-model ChefItems{
-  chefId Int
-  foodItemId Int
-  chef Chef @relation(fields: [chefId], references: [id], onDelete: Cascade)
-  foodItem FoodItem @relation(fields: [foodItemId], references: [id], onDelete: Cascade)
+model ChefItems {
+  chefId      Int
+  foodItemId  Int
+  drinkItemId Int
+
+  chef      Chef      @relation(fields: [chefId], references: [id], onDelete: Cascade)
+  foodItem  FoodItem  @relation(fields: [foodItemId], references: [id], onDelete: Cascade)
+  drinkItem DrinkItem @relation(fields: [drinkItemId], references: [id], onDelete: Cascade)
+
   @@id([chefId, foodItemId])
   @@map("chef_items")
 }
 
-model FoodItem {
-  id Int @id @default(autoincrement())
-  name String @unique
+
+model DrinkItem {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
   price Float
+
   chefs ChefItems[]
-  combos ComboItems[]
+
+  @@map("drink_items")
+}
+
+model FoodItem {
+  id      Int         @id @default(autoincrement())
+  name    String      @unique
+  price   Float
+  chefs   ChefItems[]
+  combos  ComboItems[]
+
   @@map("food_items")
 }
 
-model ComboItems{
-  comboId Int
+model ComboItems {
+  comboId   Int
   foodItemId Int
+
   fooditem FoodItem @relation(fields: [foodItemId], references: [id], onDelete: Cascade)
-  combo Combo @relation(fields: [comboId], references: [id], onDelete: Cascade)
+  combo    Combo    @relation(fields: [comboId], references: [id], onDelete: Cascade)
+
   @@id([comboId, foodItemId])
   @@map("combo_items")
 }
 
 model Combo {
-  id Int @id @default(autoincrement())
-  name String @unique
-  price Float
+  id        Int          @id @default(autoincrement())
+  name      String       @unique
+  price     Float
   foodItems ComboItems[]
+
   @@map("combos")
 }
+
 
 enum Role {
   HEAD_CHEF
