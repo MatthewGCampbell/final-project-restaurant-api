@@ -1,0 +1,12 @@
+type: object
+properties:
+  id:
+    type: integer
+    example: 1
+  name:
+    type: string
+    example: Family Feast
+  items:
+    type: array
+    items:
+      $ref: ./Item.yaml

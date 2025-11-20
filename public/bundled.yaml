@@ -1,0 +1,250 @@
+openapi: 3.1.0
+info:
+  title: Restaurant API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Testing server
+tags:
+  - name: Chef
+    description: Chef related endpoints
+paths:
+  /chef:
+    get:
+      summary: List all chefs
+      tags:
+        - Chef
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Chef'
+    post:
+      summary: Create a new chef
+      tags:
+        - Chef
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Chef'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chef'
+        '400':
+          description: Invalid Input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChefValidationError'
+  /item:
+    get:
+      summary: List all items
+      tags:
+        - Item
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+    post:
+      summary: Create a new item
+      tags:
+        - Item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        '400':
+          description: Invalid Input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemValidationError'
+  /combo:
+    get:
+      summary: List all combos
+      tags:
+        - Combo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Combo'
+    post:
+      summary: Create a new combo
+      tags:
+        - Combo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Combo'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Combo'
+        '400':
+          description: Invalid Input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComboValidationError'
+  /drink:
+    get:
+      summary: List all drinks
+      tags:
+        - Drink
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Drink'
+    post:
+      summary: Create a new drink
+      tags:
+        - Drink
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Drink'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Drink'
+        '400':
+          description: Invalid Input
+          content:
+            application/json:
+              schema: null
+components:
+  schemas:
+    Chef:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Gordon Ramsay
+        email:
+          type: string
+          example: gordon@example.com
+    ChefValidationError:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Invalid Input
+        details:
+          type: array
+          items:
+            type: string
+          example:
+            - Name is required.
+            - Email must be valid.
+    Item:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Margherita Pizza
+        price:
+          type: number
+          format: float
+          example: 12.99
+    ItemValidationError:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Invalid Input
+        details:
+          type: array
+          items:
+            type: string
+          example:
+            - Name is required.
+            - Price must be a positive number.
+    Combo:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Family Feast
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+    ComboValidationError:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Invalid Input
+        details:
+          type: array
+          items:
+            type: string
+          example:
+            - Name is required.
+            - At least one item must be included in the combo.
+    Drink:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Cola
+        price:
+          type: number
+          format: float
+          example: 2.99

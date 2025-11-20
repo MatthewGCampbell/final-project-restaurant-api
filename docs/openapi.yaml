@@ -1,0 +1,19 @@
+openapi: 3.1.0
+info:
+  title: Restaurant API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Testing server
+tags:
+  - name: Chef
+    description: Chef related endpoints
+paths:
+  /chef:
+    $ref: paths/chef.yaml
+  /item:
+    $ref: paths/item.yaml
+  /combo:
+    $ref: paths/combo.yaml
+  /drink:
+    $ref: paths/drink.yaml
