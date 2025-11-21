@@ -36,3 +36,39 @@ export const validateChefId = [
   .withMessage("Id must be an integer with a minimum value of 1"),
   handleValidationErrors,
 ];
+
+
+export const validateUpdateChef = [
+  oneOf (
+    [
+      body('name').exists(),
+      body('email').exists(),
+      body('password').exists(),
+      body('role').exists(),
+    ],
+    {
+      message: 'At least one field (name, email, password, role) must be provided'
+    },
+  ),
+
+  body('name')
+    .optional()
+    .isString()
+    .withMessage('Name must be a string'),
+
+  body('email')
+    .optional()
+    .isEmail()
+    .withMessage('Email must be a valid email'),
+
+  body('password')
+    .optional()
+    .isLength({ min: 8, max: 64 }),
+  
+  body('role')
+    .optional()
+    .isIn([Role.HEAD_CHEF, Role.SOUS_CHEF])
+    .withMessage('Role must be either HEAD_CHEF or SOUS_CHEF'),
+
+    handleValidationErrors
+];

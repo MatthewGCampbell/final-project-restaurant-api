@@ -35,13 +35,16 @@ export async function createChef(data) {
 }
 
 export async function updateChef(id, data) {
+  // Only hash if the password was provided
+  if (data.password) {
+    const hashed = await bcrypt.hash(data.password, 10);
+    data.password = hashed;
+  }
   const updatedChef = await update(id, data);
   if (updatedChef) return updatedChef;
-  else {
-    const error = new Error(`Cannot find chef with id ${id}`);
-    error.status = 404;
-    throw error;
-  }
+  const error = new Error(`Cannot find chef with id ${id}`);
+  error.status = 404;
+  throw error;
 }
 
 export async function deleteChef(id) {

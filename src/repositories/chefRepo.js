@@ -1,11 +1,14 @@
 import prisma from '../config/db.js' // prisma client
 
 export async function getAll() { 
-	return await prisma.chef.findMany();
+	return await prisma.chef.findMany({
+    omit: {password: true}
+  });
 }
 
 export async function getById(id){
   const chef = await prisma.chef.findUnique({
+    omit: {password: true},
     where: { id },  
   });
   return chef;
@@ -13,6 +16,7 @@ export async function getById(id){
 
 export async function create(data) {
   const res = await prisma.chef.create({
+    omit: {password: true},
     data,
   });
 	return res;
@@ -21,6 +25,7 @@ export async function create(data) {
 export async function update(id, updates) {
   try {
     const updatedChef = await prisma.chef.update({
+      omit: {password: true},
       where: { id },
       data: updates,
     });
@@ -34,6 +39,7 @@ export async function update(id, updates) {
 export async function remove(id) {
   try {
     const deletedChef = await prisma.chef.delete({
+      omit: {password: true},
       where: { id },
     });
     return deletedChef;
