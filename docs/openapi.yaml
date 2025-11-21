@@ -8,6 +8,10 @@ servers:
 tags:
   - name: Chef
     description: Chef related endpoints
+  - name: Item
+    description: Item related endpoints
+  - name: Combo
+    description: Combo related endpoints
 paths:
   /chef:
     $ref: paths/chef.yaml
@@ -15,5 +19,4 @@ paths:
     $ref: paths/item.yaml
   /combo:
     $ref: paths/combo.yaml
-  /drink:
-    $ref: paths/drink.yaml
+

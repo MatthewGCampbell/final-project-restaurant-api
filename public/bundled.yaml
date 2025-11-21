@@ -8,6 +8,10 @@ servers:
 tags:
   - name: Chef
     description: Chef related endpoints
+  - name: Item
+    description: Item related endpoints
+  - name: Combo
+    description: Combo related endpoints
 paths:
   /chef:
     get:
@@ -41,11 +45,75 @@ paths:
               schema:
                 $ref: '#/components/schemas/Chef'
         '400':
-          description: Invalid Input
+          $ref: '#/components/responses/ChefBadRequest'
+    /{chefId}:
+      get:
+        summary: Get a chef by ID
+        tags:
+          - Chef
+        parameters:
+          - name: chefId
+            in: path
+            required: true
+            description: ID of the chef to retrieve
+            schema:
+              type: integer
+              example: 1
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: ../components/schemas/Chef.yaml
+          '404':
+            $ref: ../components/responses/NotFoundError.yaml
+      put:
+        summary: Replace an existing chef
+        tags:
+          - Chef
+        parameters:
+          - name: chefId
+            in: path
+            required: true
+            description: ID of the chef to replace
+            schema:
+              type: integer
+              example: 1
+        requestBody:
+          required: true
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ChefValidationError'
+                $ref: ../components/schemas/Chef.yaml
+        responses:
+          '200':
+            description: Chef replaced
+            content:
+              application/json:
+                schema:
+                  $ref: ../components/schemas/Chef.yaml
+          '400':
+            $ref: ../components/responses/ChefBadRequest.yaml
+          '404':
+            $ref: ../components/responses/NotFoundError.yaml
+      delete:
+        summary: Delete a chef
+        tags:
+          - Chef
+        parameters:
+          - name: chefId
+            in: path
+            required: true
+            description: ID of the chef to delete
+            schema:
+              type: integer
+              example: 1
+        responses:
+          '204':
+            description: Chef deleted successfully
+          '404':
+            $ref: ../components/responses/NotFoundError.yaml
   /item:
     get:
       summary: List all items
@@ -83,6 +151,74 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ItemValidationError'
+    /{itemId}:
+      get:
+        summary: Get an item by ID
+        tags:
+          - Item
+        parameters:
+          - name: itemId
+            in: path
+            required: true
+            description: ID of the item to retrieve
+            schema:
+              type: integer
+              example: 1
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: ../components/schemas/Item.yaml
+          '404':
+            $ref: ../components/responses/NotFoundError.yaml
+      put:
+        summary: Replace an existing item
+        tags:
+          - Item
+        parameters:
+          - name: itemId
+            in: path
+            required: true
+            description: ID of the item to replace
+            schema:
+              type: integer
+              example: 1
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: ../components/schemas/Item.yaml
+        responses:
+          '200':
+            description: Item replaced
+            content:
+              application/json:
+                schema:
+                  $ref: ../components/schemas/Item.yaml
+          '400':
+            $ref: ../components/responses/ItemBadRequest.yaml
+          '404':
+            $ref: ../components/responses/NotFoundError.yaml
+      delete:
+        summary: Delete an item
+        tags:
+          - Item
+        parameters:
+          - name: itemId
+            in: path
+            required: true
+            description: ID of the item to delete
+            schema:
+              type: integer
+              example: 1
+        responses:
+          '204':
+            description: Item deleted successfully
+          '404':
+            $ref: ../components/responses/NotFoundError.yaml
   /combo:
     get:
       summary: List all combos
@@ -120,42 +256,74 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ComboValidationError'
-  /drink:
-    get:
-      summary: List all drinks
-      tags:
-        - Drink
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Drink'
-    post:
-      summary: Create a new drink
-      tags:
-        - Drink
-      requestBody:
-        required: true
-        content:
-          application/json:
+    /{comboId}:
+      get:
+        summary: Get a combo by ID
+        tags:
+          - Combo
+        parameters:
+          - name: comboId
+            in: path
+            required: true
+            description: ID of the combo to retrieve
             schema:
-              $ref: '#/components/schemas/Drink'
-      responses:
-        '201':
-          description: Created
+              type: integer
+              example: 1
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: ../components/schemas/Combo.yaml
+          '404':
+            $ref: ../components/responses/NotFoundError.yaml
+      put:
+        summary: Replace an existing combo
+        tags:
+          - Combo
+        parameters:
+          - name: comboId
+            in: path
+            required: true
+            description: ID of the combo to replace
+            schema:
+              type: integer
+              example: 1
+        requestBody:
+          required: true
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Drink'
-        '400':
-          description: Invalid Input
-          content:
-            application/json:
-              schema: null
+                $ref: ../components/schemas/Combo.yaml
+        responses:
+          '200':
+            description: Combo replaced
+            content:
+              application/json:
+                schema:
+                  $ref: ../components/schemas/Combo.yaml
+          '400':
+            $ref: ../components/responses/ComboBadRequest.yaml
+          '404':
+            $ref: ../components/responses/NotFoundError.yaml
+      delete:
+        summary: Delete a combo
+        tags:
+          - Combo
+        parameters:
+          - name: comboId
+            in: path
+            required: true
+            description: ID of the combo to delete
+            schema:
+              type: integer
+              example: 1
+        responses:
+          '204':
+            description: Combo deleted successfully
+          '404':
+            $ref: ../components/responses/NotFoundError.yaml
 components:
   schemas:
     Chef:
@@ -235,16 +403,10 @@ components:
           example:
             - Name is required.
             - At least one item must be included in the combo.
-    Drink:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 1
-        name:
-          type: string
-          example: Cola
-        price:
-          type: number
-          format: float
-          example: 2.99
+  responses:
+    ChefBadRequest:
+      description: Invalid Input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ChefValidationError'
