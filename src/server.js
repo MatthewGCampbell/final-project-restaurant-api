@@ -5,11 +5,11 @@ import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 
 // resource routers
-import chefRouter from './routes/chefRoutes.js';
-import itemRouter from './routes/itemRoutes.js';
-import comboRouter from './routes/comboRoutes.js';
+import chefRoutes from './routes/chefRoutes.js';
+import itemRoutes from './routes/itemRoutes.js';
+import comboRoutes from './routes/comboRoutes.js';
 import authRouter from './routes/authRoutes.js';
-import drinkRouter from './routes/drinkRoutes.js';
+import drinkRoutes from './routes/drinkRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -24,11 +24,11 @@ const specs = YAML.load('./public/bundled.yaml');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // routes
-app.use('/api/chef', chefRouter);
-app.use('/api/item', itemRouter);
-app.use('/api/combo', comboRouter);
-app.use('/api/auth', authRouter);
-app.use('/api/drink', drinkRouter);
+app.use('/chef', chefRoutes);
+app.use('/item', itemRoutes);
+app.use('/combo', comboRoutes);
+app.use('/auth', authRouter);
+app.use('/drink', drinkRoutes);
 
 // error handling
 // (1) invalid destination route 
