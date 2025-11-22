@@ -10,6 +10,8 @@ async function main() {
   await prisma.chefItems.deleteMany({});
   await prisma.drinkItem.deleteMany({});
   await prisma.foodItem.deleteMany({});
+  await prisma.comboItems.deleteMany({});
+  await prisma.combo.deleteMany({});
   await prisma.chef.deleteMany({});
 
   const chef1 = await prisma.chef.create({
@@ -51,15 +53,42 @@ async function main() {
     data: { name: 'House Red Wine', price: 8.0 },
   });
 
+	const colaMedium = await prisma.drinkItem.create({
+		data: { name: 'Cola', price: 2 },
+	});                                                 	
+	const hamburgor = await prisma.foodItem.create({
+		data: { name: 'hamburgor', price: 5.99 },
+	});
+
+	const fries = await prisma.foodItem.create({
+		data: { name: 'fries', price: 2.99 },
+	});
+
   const margarita = await prisma.drinkItem.create({
     data: { name: 'Margarita', price: 15 },
   });
+
+  	const happyMeal = await prisma.combo.create({
+		data: { name: 'Happy Meal', price: 7.99 },
+  	});
+
+	await prisma.comboItems.createMany({ 
+		data: [
+    		{ comboId: happyMeal.id, foodItemId: fries.id },
+    		{ comboId: happyMeal.id, foodItemId: hamburgor.id },
+  		],
+	});
+
+	await prisma.comboDrinkItems.create({ 
+		data: {
+			comboId: happyMeal.id, drinkItemId: colaMedium.id 
+		},
+	});
 
   await prisma.chefItems.create({
     data: {
       chefId: chef1.id,
       foodItemId: pizza.id,
-      drinkItemId: redHouseWine.id,
     },
   });
 
@@ -67,7 +96,6 @@ async function main() {
     data: {
       chefId: chef2.id,
       foodItemId: pasta.id,
-      drinkItemId: margarita.id,
     },
   });
 

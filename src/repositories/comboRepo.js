@@ -1,17 +1,15 @@
 import prisma from '../config/db.js' // prisma client
 
 export async function getAll() { 
-    return await prisma.combo.findMany();
+	return await prisma.combo.findMany();
 }
 
 export async function getById(id){
-  const task = await prisma.combo.findUnique({
+  const task = await prisma.comboDrinkItems.findUnique({
     where: { id },
-    select: {
-      id: true,
-      name: true,
-      price: true,
-    },
+	include: { 
+		drinkitem: true,
+	},
   });
   return task;
 }
