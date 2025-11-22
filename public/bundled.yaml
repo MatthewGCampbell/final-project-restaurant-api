@@ -3,7 +3,7 @@ info:
   title: Restaurant API
   version: 1.0.0
 servers:
-  - url: http://localhost:8080
+  - url: http://localhost:3000
     description: Testing server
 tags:
   - name: Chef
@@ -46,74 +46,58 @@ paths:
                 $ref: '#/components/schemas/Chef'
         '400':
           $ref: '#/components/responses/ChefBadRequest'
-    /{chefId}:
-      get:
-        summary: Get a chef by ID
-        tags:
-          - Chef
-        parameters:
-          - name: chefId
-            in: path
-            required: true
-            description: ID of the chef to retrieve
-            schema:
-              type: integer
-              example: 1
-        responses:
-          '200':
-            description: OK
-            content:
-              application/json:
-                schema:
-                  $ref: ../components/schemas/Chef.yaml
-          '404':
-            $ref: ../components/responses/NotFoundError.yaml
-      put:
-        summary: Replace an existing chef
-        tags:
-          - Chef
-        parameters:
-          - name: chefId
-            in: path
-            required: true
-            description: ID of the chef to replace
-            schema:
-              type: integer
-              example: 1
-        requestBody:
-          required: true
+  /chef/{chefId}:
+    parameters:
+      - name: chefId
+        in: path
+        required: true
+        description: ID of the chef
+        schema:
+          type: integer
+          example: 1
+    get:
+      summary: Get a chef by ID
+      tags:
+        - Chef
+      responses:
+        '200':
+          description: OK
           content:
             application/json:
               schema:
-                $ref: ../components/schemas/Chef.yaml
-        responses:
-          '200':
-            description: Chef replaced
-            content:
-              application/json:
-                schema:
-                  $ref: ../components/schemas/Chef.yaml
-          '400':
-            $ref: ../components/responses/ChefBadRequest.yaml
-          '404':
-            $ref: ../components/responses/NotFoundError.yaml
-      delete:
-        summary: Delete a chef
-        tags:
-          - Chef
-        parameters:
-          - name: chefId
-            in: path
-            required: true
-            description: ID of the chef to delete
+                $ref: '#/components/schemas/Chef'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    put:
+      summary: Replace an existing chef
+      tags:
+        - Chef
+      requestBody:
+        required: true
+        content:
+          application/json:
             schema:
-              type: integer
-              example: 1
-        responses:
-          '204':
-            description: Chef deleted successfully
-          '404':
-            $ref: ../components/responses/NotFoundError.yaml
+              $ref: '#/components/schemas/Chef'
+      responses:
+        '200':
+          description: Chef replaced
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chef'
+        '400':
+          $ref: '#/components/responses/ChefBadRequest'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    delete:
+      summary: Delete a chef
+      tags:
+        - Chef
+      responses:
+        '204':
+          description: Chef deleted successfully
+        '404':
+          $ref: '#/components/responses/NotFoundError'
   /item:
     get:
       summary: List all items
@@ -410,3 +394,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ChefValidationError'
+    NotFoundError:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Target not found

@@ -15,6 +15,7 @@ app.use(cors());
 app.use(morgan('tiny'));
 app.use(express.json());
 
+// You had this: const specs = YAML.load('./docs/openapi.yaml');
 const specs = YAML.load('./public/bundled.yaml');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 

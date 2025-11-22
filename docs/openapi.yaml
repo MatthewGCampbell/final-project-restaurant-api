@@ -12,9 +12,12 @@ tags:
     description: Item related endpoints
   - name: Combo
     description: Combo related endpoints
+    
 paths:
   /chef:
     $ref: paths/chef.yaml
+  /chef/{chefId}:
+    $ref: paths/chefById.yaml
   /item:
     $ref: paths/item.yaml
   /combo:
