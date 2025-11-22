@@ -24,11 +24,11 @@ const specs = YAML.load('./public/bundled.yaml');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // routes
-app.use('/chef', chefRoutes);
-app.use('/item', itemRoutes);
-app.use('/combo', comboRoutes);
-app.use('/auth', authRouter);
-app.use('/drink', drinkRoutes);
+app.use('/api/chef', chefRoutes);
+app.use('/api/item', itemRoutes);
+app.use('/api/combo', comboRoutes);
+app.use('/api/auth', authRouter);
+app.use('/api/drink', drinkRoutes);
 
 // error handling
 // (1) invalid destination route 
