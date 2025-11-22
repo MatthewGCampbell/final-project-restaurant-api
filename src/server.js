@@ -5,12 +5,16 @@ import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 
 // resource routers
-import chefRouter from './routes/chefRoutes.js'
+import chefRouter from './routes/chefRoutes.js';
+import itemRouter from './routes/itemRoutes.js';
+import comboRouter from './routes/comboRoutes.js';
+import authRouter from './routes/authRoutes.js';
+import drinkRouter from './routes/drinkRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// universal middleare
+// universal middleware
 app.use(cors());
 app.use(morgan('tiny'));
 app.use(express.json());
@@ -21,9 +25,13 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // routes
 app.use('/api/chef', chefRouter);
+app.use('/api/item', itemRouter);
+app.use('/api/combo', comboRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/drink', drinkRouter);
 
 // error handling
-// (1) invalid destinatoin route 
+// (1) invalid destination route 
 app.use((req, res, next) => {
   const err = new Error('Not Found');
   err.status = 404;
@@ -41,3 +49,4 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+
