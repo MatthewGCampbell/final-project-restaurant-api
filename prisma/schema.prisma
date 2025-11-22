@@ -21,29 +21,40 @@ model Chef {
   password String
   role Role @default(SOUS_CHEF)
   chefFoodItems ChefItems[]
+  chefDrinkItems ChefDrinkItems[]
   @@map("chefs")
 }
 
 model ChefItems {
   chefId      Int
   foodItemId  Int
-  drinkItemId Int
 
   chef      Chef      @relation(fields: [chefId], references: [id], onDelete: Cascade)
   foodItem  FoodItem  @relation(fields: [foodItemId], references: [id], onDelete: Cascade)
-  drinkItem DrinkItem @relation(fields: [drinkItemId], references: [id], onDelete: Cascade)
 
   @@id([chefId, foodItemId])
   @@map("chef_items")
 }
 
+model ChefDrinkItems {
+  chefId      Int
+  drinkItemId  Int
+
+  chef      Chef      @relation(fields: [chefId], references: [id], onDelete: Cascade)
+  drinkitem  DrinkItem  @relation(fields: [drinkItemId], references: [id], onDelete: Cascade)
+
+  @@id([chefId, drinkItemId])
+  @@map("chef_drink_items")
+
+}
 
 model DrinkItem {
   id    Int    @id @default(autoincrement())
   name  String @unique
   price Float
 
-  chefs ChefItems[]
+  chefDrinkItems ChefDrinkItems[]
+  drinkComboItems ComboDrinkItems[]
 
   @@map("drink_items")
 }
@@ -56,6 +67,18 @@ model FoodItem {
   combos  ComboItems[]
 
   @@map("food_items")
+}
+
+
+model ComboDrinkItems {
+  comboId   Int
+  drinkItemId Int
+
+  drinkitem DrinkItem @relation(fields: [drinkItemId], references: [id], onDelete: Cascade)
+  combo    Combo    @relation(fields: [comboId], references: [id], onDelete: Cascade)
+
+  @@id([comboId, drinkItemId])
+  @@map("combo_drink_items")
 }
 
 model ComboItems {
@@ -74,6 +97,7 @@ model Combo {
   name      String       @unique
   price     Float
   foodItems ComboItems[]
+  drinkItems ComboDrinkItems[]
 
   @@map("combos")
 }

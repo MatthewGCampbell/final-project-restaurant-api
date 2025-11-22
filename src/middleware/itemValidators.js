@@ -39,8 +39,8 @@ export const validateUpdateItem = [
 
   body('price')
     .optional()
-    .isEmail()
-    .withMessage('Email must be a valid email'),
+    .isFloat()
+    .withMessage('Price must be a valid decimal'),
 
     handleValidationErrors
 ];
