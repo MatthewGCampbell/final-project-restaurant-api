@@ -16,20 +16,20 @@ tags:
     description: Drink related endpoints
     
 paths:
-  /chef:
+  /api/chef:
     $ref: paths/chef.yaml
-  /chef/{chefId}:
+  /api/chef/{chefId}:
     $ref: paths/chefById.yaml
-  /item:
+  /api/item:
     $ref: paths/item.yaml
-  /item/{itemId}:
+  /api/item/{itemId}:
     $ref: paths/itemById.yaml
-  /combo:
+  /api/combo:
     $ref: paths/combo.yaml 
-  /combo/{comboId}:
+  /api/combo/{comboId}:
     $ref: paths/comboById.yaml
-  /drink:
+  /api/drink:
     $ref: paths/drink.yaml
-  /drink/{drinkId}:
+  /api/drink/{drinkId}:
     $ref: paths/drinkById.yaml
 
