@@ -1,17 +1,48 @@
 import prisma from '../config/db.js' // prisma client
 
 export async function getAll() { 
-	return await prisma.combo.findMany();
+	// TODO: Need to reformat response to exclude comboId and food/drink ids like getById(id)
+	const combos =  await prisma.combo.findMany({
+		include: {                  		
+        	foodItems: { 
+        		include: {
+        			fooditem: true,
+        		}
+        	},
+        	drinkItems: { 
+        		include: {
+        			drinkitem: true,
+        		}
+        	}
+        }
+	});
+	return combos;
 }
 
 export async function getById(id){
-  const task = await prisma.comboDrinkItems.findUnique({
-    where: { id },
-	include: { 
-		drinkitem: true,
-	},
-  });
-  return task;
+	const comboFoodDrinkItems = await prisma.combo.findUnique({ 
+		where: { id },
+		include: { 
+			foodItems: { 
+				include: {
+					fooditem: true,
+				}
+			},
+			drinkItems: { 
+				include: {
+					drinkitem: true,
+				}
+			}
+		}
+	});
+
+	// https://stackoverflow.com/questions/18133635/remove-property-for-all-objects-in-array
+	const foodArr = comboFoodDrinkItems.foodItems.map(({comboId, foodItemId, ...item}) => item);
+	const drinkArr = comboFoodDrinkItems.drinkItems.map(({comboId, drinkItemId, ...item}) => item);
+	comboFoodDrinkItems.foodItems = foodArr;
+	comboFoodDrinkItems.drinkItems = drinkArr;
+	
+  	return comboFoodDrinkItems;
 }
 
 export async function create(data) {
