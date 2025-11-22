@@ -1,0 +1,54 @@
+parameters:
+  - name: itemId
+    in: path
+    required: true
+    description: ID of the item
+    schema:
+      type: integer
+      example: 1
+
+get:
+  summary: Get an item by ID
+  tags:
+    - Item
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Item.yaml
+    "404":
+      $ref: ../components/responses/NotFoundError.yaml
+
+put:
+  summary: Replace an existing item
+  tags:
+    - Item
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/Item.yaml
+  responses:
+    "200":
+      description: Item replaced
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Item.yaml
+    "400":
+      $ref: ../components/responses/ItemBadRequest.yaml
+    "404":
+      $ref: ../components/responses/NotFoundError.yaml
+
+delete:
+  summary: Delete an item
+  tags:
+    - Item
+  responses:
+    "204":
+      description: Item deleted successfully
+    "404":
+      $ref: ../components/responses/NotFoundError.yaml

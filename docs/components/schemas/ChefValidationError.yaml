@@ -1,0 +1,12 @@
+type: object
+properties:
+  error:
+    type: string
+    example: Invalid Input
+  details:
+    type: array
+    items:
+      type: string
+    example:
+      - Name is required.
+      - Email must be valid.
