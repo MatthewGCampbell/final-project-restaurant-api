@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
 
 // resource routers
 import chefRouter from './routes/chefRoutes.js';
@@ -16,6 +18,10 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(morgan('tiny'));
 app.use(express.json());
+
+// You had this: const specs = YAML.load('./docs/openapi.yaml');
+const specs = YAML.load('./public/bundled.yaml');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // routes
 app.use('/api/chef', chefRouter);

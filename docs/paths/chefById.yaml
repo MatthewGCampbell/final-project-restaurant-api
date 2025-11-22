@@ -1,0 +1,54 @@
+parameters:
+  - name: chefId
+    in: path
+    required: true
+    description: ID of the chef
+    schema:
+      type: integer
+      example: 1
+
+get:
+  summary: Get a chef by ID
+  tags:
+    - Chef
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Chef.yaml
+    "404":
+      $ref: ../components/responses/NotFoundError.yaml
+
+put:
+  summary: Replace an existing chef
+  tags:
+    - Chef
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/Chef.yaml
+  responses:
+    "200":
+      description: Chef replaced
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Chef.yaml
+    "400":
+      $ref: ../components/responses/ChefBadRequest.yaml
+    "404":
+      $ref: ../components/responses/NotFoundError.yaml
+
+delete:
+  summary: Delete a chef
+  tags:
+    - Chef
+  responses:
+    "204":
+      description: Chef deleted successfully
+    "404":
+      $ref: ../components/responses/NotFoundError.yaml

@@ -1,0 +1,54 @@
+parameters:
+  - name: comboId
+    in: path
+    required: true
+    description: ID of the combo
+    schema:
+      type: integer
+      example: 1
+
+get:
+  summary: Get a combo by ID
+  tags:
+    - Combo
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Combo.yaml
+    "404":
+      $ref: ../components/responses/NotFoundError.yaml
+
+put:
+  summary: Replace an existing combo
+  tags:
+    - Combo
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/Combo.yaml
+  responses:
+    "200":
+      description: Combo replaced
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Combo.yaml
+    "400":
+      $ref: ../components/responses/ComboBadRequest.yaml
+    "404":
+      $ref: ../components/responses/NotFoundError.yaml
+
+delete:
+  summary: Delete a combo
+  tags:
+    - Combo
+  responses:
+    "204":
+      description: Combo deleted successfully
+    "404":
+      $ref: ../components/responses/NotFoundError.yaml

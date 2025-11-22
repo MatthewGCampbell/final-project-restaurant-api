@@ -1,0 +1,33 @@
+get:
+  summary: List all chefs
+  tags:
+    - Chef
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/Chef.yaml
+
+post:
+  summary: Create a new chef
+  tags:
+    - Chef
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/Chef.yaml
+  responses:
+    "201":
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Chef.yaml
+    "400":
+      $ref: ../components/responses/ChefBadRequest.yaml

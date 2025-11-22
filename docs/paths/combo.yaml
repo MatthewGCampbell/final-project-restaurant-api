@@ -1,0 +1,36 @@
+get:
+  summary: List all combos
+  tags:
+    - Combo
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/Combo.yaml
+post:
+  summary: Create a new combo
+  tags:
+    - Combo
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/Combo.yaml
+  responses:
+    '201':
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Combo.yaml
+    '400':
+      description: Invalid Input
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ComboValidationError.yaml
