@@ -12,6 +12,8 @@ tags:
     description: Item related endpoints
   - name: Combo
     description: Combo related endpoints
+  - name: Drink
+    description: Drink related endpoints
     
 paths:
   /chef:
@@ -26,4 +28,8 @@ paths:
     $ref: paths/combo.yaml 
   /combo/{comboId}:
     $ref: paths/comboById.yaml
+  /drink:
+    $ref: paths/drink.yaml
+  /drink/{drinkId}:
+    $ref: paths/drinkById.yaml
 
