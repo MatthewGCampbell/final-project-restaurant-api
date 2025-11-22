@@ -20,6 +20,10 @@ paths:
     $ref: paths/chefById.yaml
   /item:
     $ref: paths/item.yaml
+  /item/{itemId}:
+    $ref: paths/itemById.yaml
   /combo:
-    $ref: paths/combo.yaml
+    $ref: paths/combo.yaml 
+  /combo/{comboId}:
+    $ref: paths/comboById.yaml
 
