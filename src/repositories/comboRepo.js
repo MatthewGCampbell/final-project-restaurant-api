@@ -46,9 +46,43 @@ export async function getById(id){
 }
 
 export async function create(data) {
-  return prisma.combo.create({
-    data,
+
+  const combo = await prisma.combo.create({
+    data: {
+      name: data.name,
+      price: data.price
+    },
   });
+
+  // "foodItems": [5, 4, 2]
+
+  const foodItemArray = [];
+  // { comboId: happyMeal.id, foodItemId: fries.id }
+
+    for (const itemId of data.foodItems) {
+      foodItemArray.push({comboId: combo.id, foodItemId: itemId})
+    }
+
+  const drinkItemArray = [];
+  // { comboId: happyMeal.id, foodItemId: fries.id }
+
+    for (const drinkId of data.drinkItems) {
+      drinkItemArray.push({comboId: combo.id, drinkItemId: drinkId})
+    }
+
+// Array: [{combo.id, 5}, {combo.id, 4}, {combo.id, 2}]
+
+//Make combo Items
+  const comboItems = await prisma.comboItems.createMany({
+    data: foodItemArray
+  });
+
+// Make Drink Items
+  const comboDrinkItems = await prisma.comboDrinkItems.createMany({ 
+    data: drinkItemArray
+  });
+
+  return data;
 }
 
 export async function update(id, updates) {
@@ -75,4 +109,3 @@ export async function remove(id) {
     throw error;
   }
 }
-
