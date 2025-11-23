@@ -1,0 +1,20 @@
+
+post:
+  summary: Login and receive a JWT
+  tags:
+    - Authentication
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/AuthLoginReq.yaml
+  responses:
+    "200":
+      description: Successful login
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/AuhLoginRes.yaml
+    "400":
+      $ref: ../components/responses/AuthError.yaml

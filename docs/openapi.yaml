@@ -14,6 +14,8 @@ tags:
     description: Combo related endpoints
   - name: Drink
     description: Drink related endpoints
+  - name: Authentication
+    description: Authentication related endpoints
     
 paths:
   /api/chef:
@@ -32,4 +34,5 @@ paths:
     $ref: paths/drink.yaml
   /api/drink/{drinkId}:
     $ref: paths/drinkById.yaml
-
+  /api/auth:
+    $ref: paths/auth.yaml
