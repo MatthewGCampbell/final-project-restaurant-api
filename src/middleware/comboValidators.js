@@ -8,6 +8,7 @@ export const validateComboId = [
   handleValidationErrors,
 ];
 
+
 /* {
     "name": "5 for 5",
     "price": 15,
@@ -15,7 +16,19 @@ export const validateComboId = [
     "drinkItems": [2]
 } */
 
-export const validateChefBody = [
+export const validateComboBody = [
+
+  oneOf (
+    [
+      body('foodItems').exists(),
+      body('drinkItems').exists()
+    ],
+    {
+      message: 'You must either have drink or food items'
+    },
+  ),
+
+
   body('name')
   .isString()
   .withMessage('Name must be a string'),
@@ -25,10 +38,12 @@ export const validateChefBody = [
   .withMessage('Price must be an int'),
   
   body('foodItems')
+  .optional()
   .isArray()
   .withMessage('FoodItems must be an array'),
   
   body('drinkItems')
+  .optional()
   .isArray()
   .withMessage('drinkItems must be an array'),
   handleValidationErrors

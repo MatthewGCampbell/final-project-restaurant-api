@@ -1,48 +1,48 @@
 import prisma from '../config/db.js' // prisma client
 
-export async function getAll() { 
-	// TODO: Need to reformat response to exclude comboId and food/drink ids like getById(id)
-	const combos =  await prisma.combo.findMany({
-		include: {                  		
-        	foodItems: { 
-        		include: {
-        			fooditem: true,
-        		}
-        	},
-        	drinkItems: { 
-        		include: {
-        			drinkitem: true,
-        		}
-        	}
+export async function getAll() {
+  // TODO: Need to reformat response to exclude comboId and food/drink ids like getById(id)
+  const combos = await prisma.combo.findMany({
+    include: {
+      foodItems: {
+        include: {
+          fooditem: true,
         }
-	});
-	return combos;
+      },
+      drinkItems: {
+        include: {
+          drinkitem: true,
+        }
+      }
+    }
+  });
+  return combos;
 }
 
-export async function getById(id){
-	const comboFoodDrinkItems = await prisma.combo.findUnique({ 
-		where: { id },
-		include: { 
-			foodItems: { 
-				include: {
-					fooditem: true,
-				}
-			},
-			drinkItems: { 
-				include: {
-					drinkitem: true,
-				}
-			}
-		}
-	});
+export async function getById(id) {
+  const comboFoodDrinkItems = await prisma.combo.findUnique({
+    where: { id },
+    include: {
+      foodItems: {
+        include: {
+          fooditem: true,
+        }
+      },
+      drinkItems: {
+        include: {
+          drinkitem: true,
+        }
+      }
+    }
+  });
 
-	// https://stackoverflow.com/questions/18133635/remove-property-for-all-objects-in-array
-	const foodArr = comboFoodDrinkItems.foodItems.map(({comboId, foodItemId, ...item}) => item);
-	const drinkArr = comboFoodDrinkItems.drinkItems.map(({comboId, drinkItemId, ...item}) => item);
-	comboFoodDrinkItems.foodItems = foodArr;
-	comboFoodDrinkItems.drinkItems = drinkArr;
-	
-  	return comboFoodDrinkItems;
+  // https://stackoverflow.com/questions/18133635/remove-property-for-all-objects-in-array
+  const foodArr = comboFoodDrinkItems.foodItems.map(({ comboId, foodItemId, ...item }) => item);
+  const drinkArr = comboFoodDrinkItems.drinkItems.map(({ comboId, drinkItemId, ...item }) => item);
+  comboFoodDrinkItems.foodItems = foodArr;
+  comboFoodDrinkItems.drinkItems = drinkArr;
+
+  return comboFoodDrinkItems;
 }
 
 export async function create(data) {
@@ -56,36 +56,41 @@ export async function create(data) {
 
   // "foodItems": [5, 4, 2]
 
-  const foodItemArray = [];
-  // { comboId: happyMeal.id, foodItemId: fries.id }
+  if (data.foodItems) {
+    const foodItemArray = [];
+    // { comboId: happyMeal.id, foodItemId: fries.id }
 
     for (const itemId of data.foodItems) {
-      foodItemArray.push({comboId: combo.id, foodItemId: itemId})
+      foodItemArray.push({ comboId: combo.id, foodItemId: itemId })
     }
 
-  const drinkItemArray = [];
-  // { comboId: happyMeal.id, foodItemId: fries.id }
+    //Make combo food items
+    const comboItems = await prisma.comboItems.createMany({
+      data: foodItemArray
+    });
+  }
+
+  if (data.drinkItems) {
+    const drinkItemArray = [];
+    // { comboId: happyMeal.id, foodItemId: fries.id }
 
     for (const drinkId of data.drinkItems) {
-      drinkItemArray.push({comboId: combo.id, drinkItemId: drinkId})
+      drinkItemArray.push({ comboId: combo.id, drinkItemId: drinkId })
     }
 
-// Array: [{combo.id, 5}, {combo.id, 4}, {combo.id, 2}]
+    // Make Drink Items
+    const comboDrinkItems = await prisma.comboDrinkItems.createMany({
+      data: drinkItemArray
+    });
+  }
 
-//Make combo Items
-  const comboItems = await prisma.comboItems.createMany({
-    data: foodItemArray
-  });
-
-// Make Drink Items
-  const comboDrinkItems = await prisma.comboDrinkItems.createMany({ 
-    data: drinkItemArray
-  });
-
-  return data;
+  return getById(combo.id);
 }
 
 export async function update(id, updates) {
+
+  
+
   try {
     const updatedCombo = await prisma.combo.update({
       where: { id },

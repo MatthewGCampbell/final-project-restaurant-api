@@ -12,13 +12,19 @@ export async function getComboByIdHandler(req, res) {
 }
 
 export async function createComboHandler(req, res) {
+
+
   const data = {
     name: req.body.name,
     price: req.body.price,
-    foodItems: req.body.foodItems,
-    drinkItems: req.body.drinkItems
   };
+
+  if(req.body.foodItems) data.foodItems = req.body.foodItems;
+  if(req.body.drinkItems) data.drinkItems = req.body.drinkItems;
+
+
   let newCombo = await createCombo(data);
+
   res.status(201).json(newCombo);
 }
 

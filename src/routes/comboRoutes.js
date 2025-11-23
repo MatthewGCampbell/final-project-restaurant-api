@@ -1,12 +1,15 @@
 import express from 'express'
 import { getAllCombosHandler, getComboByIdHandler, createComboHandler, updateComboHandler, deleteComboHandler } from '../controller/comboController.js'
+import { validateComboBody, validateComboId } from '../middleware/comboValidators.js';
+import { authenticate } from '../middleware/authenticate.js'
+import { authorizeRoles } from '../middleware/authorizeRoles.js'
 
 // need to add validators and authenticate/authororization
 
 const router = express.Router();
 router.get('/', getAllCombosHandler);
-router.get('/:id', getComboByIdHandler);
-router.post('/', createComboHandler);
+router.get('/:id', validateComboId, getComboByIdHandler);
+router.post('/', authenticate, authorizeRoles('HEAD_CHEF'), validateComboBody, createComboHandler);
 router.put('/:id', updateComboHandler);
 router.delete('/:id', deleteComboHandler);
 
