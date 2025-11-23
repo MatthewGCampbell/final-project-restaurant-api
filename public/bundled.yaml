@@ -15,7 +15,7 @@ tags:
   - name: Drink
     description: Drink related endpoints
 paths:
-  /chef:
+  /api/chef:
     get:
       summary: List all chefs
       tags:
@@ -48,7 +48,7 @@ paths:
                 $ref: '#/components/schemas/Chef'
         '400':
           $ref: '#/components/responses/ChefBadRequest'
-  /chef/{chefId}:
+  /api/chef/{chefId}:
     parameters:
       - name: chefId
         in: path
@@ -100,7 +100,7 @@ paths:
           description: Chef deleted successfully
         '404':
           $ref: '#/components/responses/NotFoundError'
-  /item:
+  /api/item:
     get:
       summary: List all items
       tags:
@@ -137,7 +137,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ItemValidationError'
-  /item/{itemId}:
+  /api/item/{itemId}:
     parameters:
       - name: itemId
         in: path
@@ -189,7 +189,7 @@ paths:
           description: Item deleted successfully
         '404':
           $ref: '#/components/responses/NotFoundError'
-  /combo:
+  /api/combo:
     get:
       summary: List all combos
       tags:
@@ -226,7 +226,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ComboValidationError'
-  /combo/{comboId}:
+  /api/combo/{comboId}:
     parameters:
       - name: comboId
         in: path
@@ -278,7 +278,7 @@ paths:
           description: Combo deleted successfully
         '404':
           $ref: '#/components/responses/NotFoundError'
-  /drink:
+  /api/drink:
     get:
       summary: List all drinks
       tags:
@@ -311,7 +311,7 @@ paths:
                 $ref: '#/components/schemas/Drink'
         '400':
           $ref: '#/components/responses/DrinkBadRequest'
-  /drink/{drinkId}:
+  /api/drink/{drinkId}:
     parameters:
       - name: drinkId
         in: path
