@@ -48,3 +48,40 @@ export const validateComboBody = [
   .withMessage('drinkItems must be an array'),
   handleValidationErrors
 ];
+
+export const validateComboBodyUpdate = [
+
+  oneOf (
+    [
+      body('name').exists(),
+      body('price').exists(),
+      body('foodItems').exists(),
+      body('drinkItems').exists()
+    ],
+    {
+      message: 'You must either have a name, price, drink items, food items'
+    },
+  ),
+
+
+  body('name')
+  .optional()
+  .isString()
+  .withMessage('Name must be a string'),
+
+  body('price')
+  .optional()
+  .isInt()
+  .withMessage('Price must be an int'),
+  
+  body('foodItems')
+  .optional()
+  .isArray()
+  .withMessage('FoodItems must be an array'),
+  
+  body('drinkItems')
+  .optional()
+  .isArray()
+  .withMessage('drinkItems must be an array'),
+  handleValidationErrors
+];

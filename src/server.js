@@ -40,6 +40,8 @@ app.use((req, res, next) => {
 
 // (2) thrown errors or internal backend error
 app.use((err, req, res, next) => {
+  console.log("poosdjfwjhw");
+  console.log(err);
   if (!err.status) {
     err.status = 500;
     err.message = 'Internal Server Error';

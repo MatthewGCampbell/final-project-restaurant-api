@@ -1,4 +1,5 @@
 import prisma from '../config/db.js' // prisma client
+import { getComboById } from '../services/comboService.js';
 
 export async function getAll() {
   // TODO: Need to reformat response to exclude comboId and food/drink ids like getById(id)
@@ -37,11 +38,19 @@ export async function getById(id) {
   });
 
   // https://stackoverflow.com/questions/18133635/remove-property-for-all-objects-in-array
-  const foodArr = comboFoodDrinkItems.foodItems.map(({ comboId, foodItemId, ...item }) => item);
-  const drinkArr = comboFoodDrinkItems.drinkItems.map(({ comboId, drinkItemId, ...item }) => item);
-  comboFoodDrinkItems.foodItems = foodArr;
-  comboFoodDrinkItems.drinkItems = drinkArr;
 
+  if(!comboFoodDrinkItems) {
+    return false;
+  }
+
+  if(comboFoodDrinkItems.foodItems) {
+    const foodArr = comboFoodDrinkItems.foodItems.map(({ comboId, foodItemId, ...item }) => item);
+    comboFoodDrinkItems.foodItems = foodArr;
+  }
+  if(comboFoodDrinkItems.drinkItems) {
+    const drinkArr = comboFoodDrinkItems.drinkItems.map(({ comboId, drinkItemId, ...item }) => item);
+    comboFoodDrinkItems.drinkItems = drinkArr;
+  }
   return comboFoodDrinkItems;
 }
 
@@ -84,23 +93,64 @@ export async function create(data) {
     });
   }
 
-  return getById(combo.id);
+  return await getComboById(combo.id);
 }
 
 export async function update(id, updates) {
 
-  
+  const comboUpdates = {};
+  if(updates.name) comboUpdates.name = updates.name;
+  if(updates.price) comboUpdates.price = updates.price;
 
-  try {
-    const updatedCombo = await prisma.combo.update({
+  if(comboUpdates) {
+    await prisma.combo.update({
       where: { id },
-      data: updates,
-    });
-    return updatedCombo;
-  } catch (error) {
-    if (error.code === 'P2025') return null;
-    throw error;
+      data: comboUpdates
+    })
   }
+
+  // I'm finding the combo junction rows with the given id as the foreign key
+  if (updates.drinkItems) {
+    await prisma.comboDrinkItems.deleteMany({
+      where: { comboId: id },
+    });
+  }
+
+  if (updates.foodItems) {
+    await prisma.comboItems.deleteMany({
+      where: { comboId: id },
+    });
+  }
+
+  if (updates.foodItems) {
+    const foodItemArray = [];
+    // { comboId: happyMeal.id, foodItemId: fries.id }
+
+    for (const itemId of updates.foodItems) {
+      foodItemArray.push({ comboId: id, foodItemId: itemId })
+    }
+
+    //Make combo food items
+    const comboItems = await prisma.comboItems.createMany({
+      data: foodItemArray
+    });
+  }
+
+  if (updates.drinkItems) {
+    const drinkItemArray = [];
+    // { comboId: happyMeal.id, foodItemId: fries.id }
+
+    for (const drinkId of updates.drinkItems) {
+      drinkItemArray.push({ comboId: id, drinkItemId: drinkId })
+    }
+
+    // Make Drink Items
+    const comboDrinkItems = await prisma.comboDrinkItems.createMany({
+      data: drinkItemArray
+    });
+  }
+
+  return await getById(id);
 }
 
 export async function remove(id) {
