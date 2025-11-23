@@ -11,6 +11,6 @@ router.get('/', getAllCombosHandler);
 router.get('/:id', validateComboId, getComboByIdHandler);
 router.post('/', authenticate, authorizeRoles('HEAD_CHEF'), validateComboBody, createComboHandler);
 router.put('/:id', authenticate, authorizeRoles('HEAD_CHEF'), validateComboBodyUpdate, updateComboHandler);
-router.delete('/:id', deleteComboHandler);
+router.delete('/:id', authenticate, authorizeRoles('HEAD_CHEF'), validateComboId, deleteComboHandler);
 
 export default router; 

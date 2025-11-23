@@ -9,10 +9,8 @@ export async function getAllCombos() {
 
 export async function getComboById(id) {
   let result = await getById(id);
-  console.log(result);
   if (result) return result;
   else {
-    console.log("fjhasjhfjs");
     const error = new Error(`Cannot find combo with id ${id}`);
     error.status = 404;
     throw error;
