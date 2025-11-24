@@ -14,7 +14,9 @@ export async function getChefByIdHandler(req, res) {
 export async function createChefHandler(req, res) {
   const data = {
     name: req.body.name,
-    role: req.body.role
+    role: req.body.role,
+    password: req.body.password,
+    email: req.body.email
   };
   let newChef = await createChef(data);
   res.status(201).json(newChef);
@@ -22,8 +24,11 @@ export async function createChefHandler(req, res) {
 
 export async function updateChefHandler(req, res) {
   let id = parseInt(req.params.id);
+  
   const updates = {};
   if (req.body.name) updates.name = req.body.name;
+  if (req.body.email) updates.email = req.body.email;
+  if (req.body.password) updates.password = req.body.password;
   if (req.body.role) updates.role = req.body.role;
 
   const updatedChef = await updateChef(id, updates);

@@ -1,0 +1,54 @@
+parameters:
+  - name: drinkId
+    in: path
+    required: true
+    description: ID of the drink
+    schema:
+      type: integer
+      example: 1
+
+get:
+  summary: Get a drink by ID
+  tags:
+    - Drink
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Drink.yaml
+    "404":
+      $ref: ../components/responses/NotFoundError.yaml
+
+put:
+  summary: Replace an existing drink
+  tags:
+    - Drink
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/Drink.yaml
+  responses:
+    "200":
+      description: Drink replaced
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Drink.yaml
+    "400":
+      $ref: ../components/responses/DrinkBadRequest.yaml
+    "404":
+      $ref: ../components/responses/NotFoundError.yaml
+
+delete:
+  summary: Delete a drink
+  tags:
+    - Drink
+  responses:
+    "204":
+      description: Drink deleted successfully
+    "404":
+      $ref: ../components/responses/NotFoundError.yaml

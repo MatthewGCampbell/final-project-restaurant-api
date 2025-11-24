@@ -1,11 +1,15 @@
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
 
 // resource routers
-import chefRouter from './routes/chefRoutes.js';
-import itemRouter from './routes/itemRoutes.js';
-import comboRouter from './routes/comboRoutes.js';
+import chefRoutes from './routes/chefRoutes.js';
+import itemRoutes from './routes/itemRoutes.js';
+import comboRoutes from './routes/comboRoutes.js';
+import authRouter from './routes/authRoutes.js';
+import drinkRoutes from './routes/drinkRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,10 +19,20 @@ app.use(cors());
 app.use(morgan('tiny'));
 app.use(express.json());
 
+// You had this: const specs = YAML.load('./docs/openapi.yaml');
+const specs = YAML.load('./public/bundled.yaml');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
+
 // routes
-app.use('/api/chef', chefRouter);
-app.use('/api/item', itemRouter);
-app.use('/api/combo', comboRouter);
+app.use('/api/chef', chefRoutes);
+app.use('/api/item', itemRoutes);
+app.use('/api/combo', comboRoutes);
+app.use('/api/auth', authRouter);
+app.use('/api/drink', drinkRoutes);
 
 // error handling
 // (1) invalid destination route 

@@ -1,0 +1,492 @@
+openapi: 3.1.0
+info:
+  title: Restaurant API
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Testing server
+tags:
+  - name: Chef
+    description: Chef related endpoints
+  - name: Item
+    description: Item related endpoints
+  - name: Combo
+    description: Combo related endpoints
+  - name: Drink
+    description: Drink related endpoints
+paths:
+  /api/chef:
+    get:
+      summary: List all chefs
+      tags:
+        - Chef
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Chef'
+    post:
+      summary: Create a new chef
+      tags:
+        - Chef
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Chef'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chef'
+        '400':
+          $ref: '#/components/responses/ChefBadRequest'
+  /api/chef/{chefId}:
+    parameters:
+      - name: chefId
+        in: path
+        required: true
+        description: ID of the chef
+        schema:
+          type: integer
+          example: 1
+    get:
+      summary: Get a chef by ID
+      tags:
+        - Chef
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chef'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    put:
+      summary: Replace an existing chef
+      tags:
+        - Chef
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Chef'
+      responses:
+        '200':
+          description: Chef replaced
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chef'
+        '400':
+          $ref: '#/components/responses/ChefBadRequest'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    delete:
+      summary: Delete a chef
+      tags:
+        - Chef
+      responses:
+        '204':
+          description: Chef deleted successfully
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+  /api/item:
+    get:
+      summary: List all items
+      tags:
+        - Item
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+    post:
+      summary: Create a new item
+      tags:
+        - Item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        '400':
+          description: Invalid Input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemValidationError'
+  /api/item/{itemId}:
+    parameters:
+      - name: itemId
+        in: path
+        required: true
+        description: ID of the item
+        schema:
+          type: integer
+          example: 1
+    get:
+      summary: Get an item by ID
+      tags:
+        - Item
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    put:
+      summary: Replace an existing item
+      tags:
+        - Item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '200':
+          description: Item replaced
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        '400':
+          $ref: '#/components/responses/ItemBadRequest'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    delete:
+      summary: Delete an item
+      tags:
+        - Item
+      responses:
+        '204':
+          description: Item deleted successfully
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+  /api/combo:
+    get:
+      summary: List all combos
+      tags:
+        - Combo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Combo'
+    post:
+      summary: Create a new combo
+      tags:
+        - Combo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Combo'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Combo'
+        '400':
+          description: Invalid Input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComboValidationError'
+  /api/combo/{comboId}:
+    parameters:
+      - name: comboId
+        in: path
+        required: true
+        description: ID of the combo
+        schema:
+          type: integer
+          example: 1
+    get:
+      summary: Get a combo by ID
+      tags:
+        - Combo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Combo'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    put:
+      summary: Replace an existing combo
+      tags:
+        - Combo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Combo'
+      responses:
+        '200':
+          description: Combo replaced
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Combo'
+        '400':
+          $ref: '#/components/responses/ComboBadRequest'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    delete:
+      summary: Delete a combo
+      tags:
+        - Combo
+      responses:
+        '204':
+          description: Combo deleted successfully
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+  /api/drink:
+    get:
+      summary: List all drinks
+      tags:
+        - Drink
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Drink'
+    post:
+      summary: Create a new drink
+      tags:
+        - Drink
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Drink'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Drink'
+        '400':
+          $ref: '#/components/responses/DrinkBadRequest'
+  /api/drink/{drinkId}:
+    parameters:
+      - name: drinkId
+        in: path
+        required: true
+        description: ID of the drink
+        schema:
+          type: integer
+          example: 1
+    get:
+      summary: Get a drink by ID
+      tags:
+        - Drink
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Drink'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    put:
+      summary: Replace an existing drink
+      tags:
+        - Drink
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Drink'
+      responses:
+        '200':
+          description: Drink replaced
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Drink'
+        '400':
+          $ref: '#/components/responses/DrinkBadRequest'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    delete:
+      summary: Delete a drink
+      tags:
+        - Drink
+      responses:
+        '204':
+          description: Drink deleted successfully
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+components:
+  schemas:
+    Chef:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Gordon Ramsay
+        email:
+          type: string
+          example: gordon@example.com
+    ChefValidationError:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Invalid Input
+        details:
+          type: array
+          items:
+            type: string
+          example:
+            - Name is required.
+            - Email must be valid.
+    Item:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Margherita Pizza
+        price:
+          type: number
+          format: float
+          example: 12.99
+    ItemValidationError:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Invalid Input
+        details:
+          type: array
+          items:
+            type: string
+          example:
+            - Name is required.
+            - Price must be a positive number.
+    Combo:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Family Feast
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+    ComboValidationError:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Invalid Input
+        details:
+          type: array
+          items:
+            type: string
+          example:
+            - Name is required.
+            - At least one item must be included in the combo.
+    Drink:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Cola
+        price:
+          type: number
+          format: float
+          example: 1.99
+  responses:
+    ChefBadRequest:
+      description: Invalid Input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ChefValidationError'
+    NotFoundError:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Target not found
+    ItemBadRequest:
+      description: Invalid Input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ItemValidationError'
+    ComboBadRequest:
+      description: Invalid Input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ComboValidationError'
+    DrinkBadRequest:
+      description: Invalid Input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ItemValidationError'

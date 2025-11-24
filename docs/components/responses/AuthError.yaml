@@ -1,0 +1,12 @@
+  type: object
+  properties:
+    error:
+      type: string
+      example: Invalid email or password
+    details:
+      type: array
+      items:
+        type: string
+      example:
+        - Email not found
+        - Password is incorrect

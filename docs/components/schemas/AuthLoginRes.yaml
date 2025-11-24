@@ -1,0 +1,17 @@
+
+  type: object
+  properties:
+    token:
+      type: string
+      description: JWT token
+      example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+    user:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        email:
+          type: string
+          example: gordon@example.com
+

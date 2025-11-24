@@ -21,43 +21,87 @@ model Chef {
   password String
   role Role @default(SOUS_CHEF)
   chefFoodItems ChefItems[]
+  chefDrinkItems ChefDrinkItems[]
   @@map("chefs")
 }
 
-model ChefItems{
-  chefId Int
-  foodItemId Int
-  chef Chef @relation(fields: [chefId], references: [id], onDelete: Cascade)
-  foodItem FoodItem @relation(fields: [foodItemId], references: [id], onDelete: Cascade)
+model ChefItems {
+  chefId      Int
+  foodItemId  Int
+
+  chef      Chef      @relation(fields: [chefId], references: [id], onDelete: Cascade)
+  foodItem  FoodItem  @relation(fields: [foodItemId], references: [id], onDelete: Cascade)
+
   @@id([chefId, foodItemId])
   @@map("chef_items")
 }
 
-model FoodItem {
-  id Int @id @default(autoincrement())
-  name String @unique
+model ChefDrinkItems {
+  chefId      Int
+  drinkItemId  Int
+
+  chef      Chef      @relation(fields: [chefId], references: [id], onDelete: Cascade)
+  drinkitem  DrinkItem  @relation(fields: [drinkItemId], references: [id], onDelete: Cascade)
+
+  @@id([chefId, drinkItemId])
+  @@map("chef_drink_items")
+
+}
+
+model DrinkItem {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
   price Float
-  chefs ChefItems[]
-  combos ComboItems[]
+
+  chefDrinkItems ChefDrinkItems[]
+  drinkComboItems ComboDrinkItems[]
+
+  @@map("drink_items")
+}
+
+model FoodItem {
+  id      Int         @id @default(autoincrement())
+  name    String      @unique
+  price   Float
+  chefs   ChefItems[]
+  combos  ComboItems[]
+
   @@map("food_items")
 }
 
-model ComboItems{
-  comboId Int
+
+model ComboDrinkItems {
+  comboId   Int
+  drinkItemId Int
+
+  drinkitem DrinkItem @relation(fields: [drinkItemId], references: [id], onDelete: Cascade)
+  combo    Combo    @relation(fields: [comboId], references: [id], onDelete: Cascade)
+
+  @@id([comboId, drinkItemId])
+  @@map("combo_drink_items")
+}
+
+model ComboItems {
+  comboId   Int
   foodItemId Int
+
   fooditem FoodItem @relation(fields: [foodItemId], references: [id], onDelete: Cascade)
-  combo Combo @relation(fields: [comboId], references: [id], onDelete: Cascade)
+  combo    Combo    @relation(fields: [comboId], references: [id], onDelete: Cascade)
+
   @@id([comboId, foodItemId])
   @@map("combo_items")
 }
 
 model Combo {
-  id Int @id @default(autoincrement())
-  name String @unique
-  price Float
+  id        Int          @id @default(autoincrement())
+  name      String       @unique
+  price     Float
   foodItems ComboItems[]
+  drinkItems ComboDrinkItems[]
+
   @@map("combos")
 }
+
 
 enum Role {
   HEAD_CHEF
