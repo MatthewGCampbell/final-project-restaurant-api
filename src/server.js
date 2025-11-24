@@ -23,6 +23,10 @@ app.use(express.json());
 const specs = YAML.load('./public/bundled.yaml');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
+
 // routes
 app.use('/api/chef', chefRoutes);
 app.use('/api/item', itemRoutes);
